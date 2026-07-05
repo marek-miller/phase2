@@ -14,7 +14,6 @@
  * idempotent (no state change, returns 1).
  */
 
-#include "c23_compat.h"
 #include <stdint.h>
 #include <string.h>
 

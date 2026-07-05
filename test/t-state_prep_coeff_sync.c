@@ -28,7 +28,6 @@
  * backend only with the bulk sync in place.
  */
 
-#include "c23_compat.h"
 #include <complex.h>
 #include <inttypes.h>
 #include <math.h>

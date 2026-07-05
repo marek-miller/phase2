@@ -16,7 +16,6 @@
  *   any pivot == 0  returns 0.0  (singular).
  */
 
-#include "c23_compat.h"
 #include <math.h>
 #include <stdint.h>
 #include <string.h>

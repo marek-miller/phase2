@@ -1,4 +1,3 @@
-#include "c23_compat.h"
 #include <float.h>
 #include <math.h>
 #include <stddef.h>

@@ -6,7 +6,6 @@
  * here -- algorithms manage their own PRNGs.
  */
 
-#include "c23_compat.h"
 #include <stdlib.h>
 
 #include "mpi.h"

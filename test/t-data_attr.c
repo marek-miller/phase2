@@ -10,7 +10,6 @@
  * write size_t scalars through this dispatcher, but nothing
  * reads them through data_attr_read).
  */
-#include "c23_compat.h"
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>

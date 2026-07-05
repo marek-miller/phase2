@@ -57,7 +57,7 @@
  * No phase2 / MPI / HDF5 dependencies; libc + POSIX
  * only.  Build line:
  *
- *     cc -std=c11 -Wall -Wextra -O3 test/run.c -o test/run
+ *     cc -std=c23 -Wall -Wextra -O3 test/run.c -o test/run
  */
 
 #define _POSIX_C_SOURCE 200809L
@@ -67,7 +67,6 @@
 #include <fnmatch.h>
 #include <getopt.h>
 #include <stdarg.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -87,7 +86,7 @@
  * proper go through the regular pass/fail path; this is
  * for the harness itself dying.
  */
-__attribute__((noreturn, format(printf, 1, 2)))
+[[noreturn, gnu::format(printf, 1, 2)]]
 static void die(const char *fmt, ...)
 {
 	va_list ap;

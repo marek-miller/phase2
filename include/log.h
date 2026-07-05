@@ -57,8 +57,9 @@ enum log_level {
  * filtered-out calls before any function is invoked. */
 extern int log_threshold;
 
+[[gnu::format(printf, 5, 6)]]
 void log_emit(int level, const char *subsys, const char *file, int line,
-	const char *fmt, ...) __attribute__((format(printf, 5, 6)));
+	const char *fmt, ...);
 
 #define log_at(lvl, ...)                                                       \
 	do {                                                                   \

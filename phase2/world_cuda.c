@@ -5,7 +5,6 @@
  * world_backend_init.
  */
 
-#include "c23_compat.h"
 #include <stdlib.h>
 
 #include <cuda_runtime_api.h>

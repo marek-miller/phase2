@@ -15,14 +15,16 @@ Reference: arXiv:[2504.17881](https://arxiv.org/abs/2504.17881).
 Install
 -------
 
-Build dependencies on Ubuntu 22.04 or later:
+The C sources are ISO C23; building requires GCC 14 or
+later.  Build dependencies on Ubuntu 24.04 or later:
 
 ```bash
-sudo apt install gcc libopenmpi-dev openmpi-common \
+sudo apt install gcc-14 libopenmpi-dev openmpi-common \
                  libhdf5-dev hdf5-tools
 ```
 
-On the ETH Euler cluster:
+On the ETH Euler cluster (the stack's default GCC predates
+C23; load a GCC >= 14 module alongside):
 
 ```bash
 ml load stack/2024-06 openmpi/4.1.6 hdf5/1.14.3 \
@@ -37,6 +39,9 @@ git clone https://github.com/Quantum-for-Life/phase2
 cd phase2
 make
 ```
+
+If the system `gcc` is older than 14, point the build at a
+newer one: `make CC=gcc-14`.
 
 
 Run

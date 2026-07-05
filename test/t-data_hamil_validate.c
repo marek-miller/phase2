@@ -9,7 +9,6 @@
  * and asserts that data_hamil_load returns -1 and leaves
  * the output struct without dangling buffers.
  */
-#include "c23_compat.h"
 #include <complex.h>
 #include <stddef.h>
 #include <stdint.h>

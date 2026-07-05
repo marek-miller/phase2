@@ -93,13 +93,13 @@ $(TBIN)/t-log_release: CFLAGS += -UDEBUG
 # libc + POSIX only.  No phase2 / MPI / HDF5 deps.
 $(RUNNER): $(TESTDIR)/run.c
 	@$(MKDIR) $(@D)
-	$(CC) -std=c11 -Wall -Wextra -O2 -o $@ $<
+	$(CC) -std=c23 -Wall -Wextra -O2 -o $@ $<
 
 # Synthetic fixtures used by t-run to exercise the
 # runner against controlled outcomes.
 $(RUNFIXDIR)/%: $(TESTDIR)/run-fixtures/%.c
 	@$(MKDIR) $(@D)
-	$(CC) -std=c11 -Wall -Wextra -O2 -o $@ $<
+	$(CC) -std=c23 -Wall -Wextra -O2 -o $@ $<
 
 # t-run is a meta-test: it shells out to the runner
 # against the fixtures.  Order-only prereqs ensure

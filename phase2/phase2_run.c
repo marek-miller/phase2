@@ -1,4 +1,3 @@
-#include "c23_compat.h"
 #include <complex.h>
 #include <ctype.h>
 #include <stdint.h>

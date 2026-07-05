@@ -1,5 +1,5 @@
-#include "c23_compat.h"
 #include <complex.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
 

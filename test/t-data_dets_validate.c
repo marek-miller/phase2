@@ -8,7 +8,6 @@
  * a deliberately malformed `dets` value, then runs the loader
  * and asserts the rejection plus a zeroed output struct.
  */
-#include "c23_compat.h"
 #include <complex.h>
 #include <stddef.h>
 #include <stdint.h>

@@ -1,5 +1,4 @@
 #define _XOPEN_SOURCE 600
-#include "c23_compat.h"
 
 #include <argp.h>
 #include <stdint.h>

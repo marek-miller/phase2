@@ -20,7 +20,6 @@
  */
 #define LOG_SUBSYS "cache"
 
-#include "c23_compat.h"
 #include <stdlib.h>
 
 #include "log.h"

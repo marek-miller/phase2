@@ -33,7 +33,6 @@
 
 #define LOG_SUBSYS "data"
 
-#include "c23_compat.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdint.h>

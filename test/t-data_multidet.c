@@ -5,7 +5,6 @@
  * the second fixture) the exact contents of the basis-state
  * indices and complex coefficients.
  */
-#include "c23_compat.h"
 #include <complex.h>
 #include <stdint.h>
 #include <stdio.h>

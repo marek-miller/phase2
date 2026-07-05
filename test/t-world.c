@@ -1,6 +1,5 @@
 #define LOG_SUBSYS "test"
 
-#include "c23_compat.h"
 #include <stdint.h>
 
 #include "log.h"
