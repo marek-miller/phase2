@@ -24,7 +24,7 @@
 
 # --- Toolchain ------------------------------------------------------------- #
 CC              ?= gcc
-CFLAGS          += -std=c11 -Wall -Wextra -O3 -march=native -mavx2 -MMD -MP
+CFLAGS          += -std=c23 -Wall -Wextra -O3 -march=native -mavx2 -MMD -MP
 # EXTRA_CFLAGS / EXTRA_LDFLAGS allow command-line overrides (e.g. sanitiser
 # builds) without clobbering the rest of the flag pipeline.
 EXTRA_CFLAGS    ?=

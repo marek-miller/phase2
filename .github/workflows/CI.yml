@@ -13,14 +13,22 @@ jobs:
         os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
 
+    # The build is -std=c23; ubuntu-latest defaults to GCC 13,
+    # which lacks the c23 spelling.  Makefile has CC ?= gcc, so
+    # the env var reaches every make, including the examples
+    # smoke-test rebuild.
+    env:
+      CC: gcc-14
+
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
 
-      - name: Install MPI and HDF5
+      - name: Install toolchain, MPI and HDF5
         run: |
           sudo apt update
+          sudo apt install gcc-14
           sudo apt install libopenmpi-dev openmpi-common
           sudo apt install libhdf5-dev
           sudo apt install python3-h5py python3-numpy
