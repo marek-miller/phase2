@@ -1,4 +1,3 @@
-#include "c23_compat.h"
 #include <stdint.h>
 
 #include "ph2run/data.h"

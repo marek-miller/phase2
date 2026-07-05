@@ -57,7 +57,7 @@
  * No phase2 / MPI / HDF5 dependencies; libc + POSIX
  * only.  Build line:
  *
- *     cc -std=c11 -Wall -Wextra -O3 test/run.c -o test/run
+ *     cc -std=c23 -Wall -Wextra -O3 test/run.c -o test/run
  */
 
 #define _POSIX_C_SOURCE 200809L
@@ -67,7 +67,6 @@
 #include <fnmatch.h>
 #include <getopt.h>
 #include <stdarg.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

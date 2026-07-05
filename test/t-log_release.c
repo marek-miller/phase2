@@ -14,7 +14,6 @@
 
 #define LOG_SUBSYS "t-log_release"
 
-#include "c23_compat.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

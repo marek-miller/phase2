@@ -63,11 +63,9 @@
 #define _DEFAULT_SOURCE         /* for timegm() */
 #define _GNU_SOURCE             /* for sched_setaffinity() */
 
-#include "c23_compat.h"
 #include <errno.h>
 #include <math.h>
 #include <sched.h>
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>

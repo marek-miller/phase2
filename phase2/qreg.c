@@ -9,7 +9,6 @@
 
 #define LOG_SUBSYS "qreg"
 
-#include "c23_compat.h"
 #include <complex.h>
 #include <math.h>
 #include <stdlib.h>

@@ -16,7 +16,6 @@
 
 #define LOG_SUBSYS "t-log"
 
-#include "c23_compat.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

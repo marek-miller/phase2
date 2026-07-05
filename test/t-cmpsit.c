@@ -21,7 +21,6 @@
 
 #define LOG_SUBSYS "test"
 
-#include "c23_compat.h"
 #include <complex.h>
 #include <math.h>
 #include <stddef.h>

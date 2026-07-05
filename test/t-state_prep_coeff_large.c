@@ -5,7 +5,6 @@
  */
 
 #define _POSIX_C_SOURCE 200809L
-#include "c23_compat.h"
 #include <complex.h>
 #include <math.h>
 #include <stddef.h>

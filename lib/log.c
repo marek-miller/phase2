@@ -12,7 +12,6 @@
 
 #define LOG_SUBSYS "log"
 
-#include "c23_compat.h"
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>

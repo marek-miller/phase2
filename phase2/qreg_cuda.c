@@ -7,7 +7,6 @@
  * garbage.  Operator kernels live in qreg_cuda_lo.cu.
  */
 
-#include "c23_compat.h"
 #include <complex.h>
 #include <stdlib.h>
 

@@ -20,7 +20,6 @@
  * invocation also passes (the rank-0 vs follower scenarios
  * fold into rank-0 paths).
  */
-#include "c23_compat.h"
 #include <complex.h>
 #include <math.h>
 #include <stdint.h>

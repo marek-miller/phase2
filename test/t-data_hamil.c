@@ -6,7 +6,6 @@
  * load time; the per-term cf check folds the norm in
  * implicitly.
  */
-#include "c23_compat.h"
 #include <complex.h>
 #include <math.h>
 #include <stdint.h>

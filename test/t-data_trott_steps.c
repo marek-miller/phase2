@@ -7,7 +7,6 @@
  * H5Dread on rank 0 (the values dataset); confirm
  * bit-for-bit match.
  */
-#include "c23_compat.h"
 #include <complex.h>
 #include <math.h>
 #include <stdint.h>

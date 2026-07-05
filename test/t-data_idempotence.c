@@ -8,7 +8,6 @@
  * Single-rank by design; the MPI-side scenarios live in
  * t-data_mpi.
  */
-#include "c23_compat.h"
 #include <stdint.h>
 #include <stdio.h>
 
