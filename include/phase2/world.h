@@ -40,12 +40,12 @@ struct world_info {
 
 /* Initialize the world with command line parameters and a seed for PRNG.
  *
- * This should be called exactly once at the begging of the program.  The MPI
+ * This should be called exactly once at the beginning of the program.  The MPI
  * world communicator is initialized here as well as the logging facility.
  *
- * The PRNG is initialized with the seed.  The seed must not be zero.  The state
- * of the PRNG is deterministically split among MPI processes, so that each
- * process has it own state.
+ * The seed must not be zero.  It is stored in the world snapshot (readable
+ * via world_info); the world owns no PRNG state.  Algorithms seed their own
+ * PRNGs from it, identically on every rank.
  *
  * Returns:
  * 	WORLD_READY	- in case of success
