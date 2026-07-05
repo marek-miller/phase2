@@ -86,7 +86,7 @@
  * proper go through the regular pass/fail path; this is
  * for the harness itself dying.
  */
-__attribute__((noreturn, format(printf, 1, 2)))
+[[noreturn, gnu::format(printf, 1, 2)]]
 static void die(const char *fmt, ...)
 {
 	va_list ap;
