@@ -20,16 +20,16 @@
  * in draw order.  Output is the per-sample overlap
  * <psi|U|psi>.
  *
- * The PRNG is xoshiro256** seeded by `seed` and split
- * deterministically across MPI ranks; `seed` must be
- * non-zero.
+ * The PRNG is xoshiro256** seeded by `seed`, identically
+ * on every rank: all ranks must draw the same terms.  Any
+ * seed value is valid, including 0.
  */
 
 struct qdrift_data {
 	size_t samples;		/* number of independent samples */
 	size_t depth;		/* terms drawn per sample */
 	double step_size;	/* qDRIFT step size */
-	uint64_t seed;		/* PRNG seed; must be non-zero */
+	uint64_t seed;		/* PRNG seed; used verbatim */
 };
 
 struct qdrift_ranct {

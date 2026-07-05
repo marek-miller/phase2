@@ -2,13 +2,23 @@
  * t-qdrift -- correctness checks for the qDRIFT
  * randomised product formula (circ/qdrift.c).
  *
- * Two scenarios:
+ * Scenarios:
  *
  *   t_seed_reproducible    Two qdrift_simul runs with
  *                          identical seeds must produce
  *                          bit-identical per-sample
  *                          overlaps.  Pins the RNG seed
  *                          contract.
+ *
+ *   t_xoshiro_seed_zero    Seed 0 must yield a healthy
+ *                          generator: the state expands
+ *                          through splitmix64, never raw.
+ *
+ *   t_seed_zero            Seed 0 is a legal value used
+ *                          verbatim: init keeps it, the
+ *                          simulation runs, and it is not
+ *                          poisoned by an earlier
+ *                          explicit-seed instance.
  *
  *   t_single_term_eq_trott Single-term Hamiltonian: every
  *                          qdrift draw selects the same
@@ -152,6 +162,79 @@ static void t_seed_reproducible(void)
 	circ_muldet_free(&md_master);
 }
 
+static void t_xoshiro_seed_zero(void)
+{
+	/* A raw all-zero state is the generator's fixed point;
+	 * init must never produce it, for any seed.  Seed 0 is
+	 * the suspicious case. */
+	struct xoshiro256ss r;
+	xoshiro256ss_init(&r, 0);
+	TEST_ASSERT(r.s[0] || r.s[1] || r.s[2] || r.s[3],
+		"all-zero state from seed 0");
+	const uint64_t d0 = xoshiro256ss_next(&r);
+	const uint64_t d1 = xoshiro256ss_next(&r);
+	TEST_ASSERT(d0 != d1, "constant output from seed 0");
+}
+
+static void t_seed_zero(void)
+{
+	struct circ_hamil hm_master = build_hamil(NUM_TERMS);
+	struct circ_muldet md_master = build_muldet(NUM_DETS);
+
+	/* Poison attempt: an earlier instance with an explicit
+	 * seed must not leak into a later seed-0 init. */
+	const struct qdrift_data dt_x = {
+		.samples = 1,
+		.depth = 4,
+		.step_size = 0.1,
+		.seed = UINT64_C(0x5be6c30a97d1428f),
+	};
+	struct qdrift x;
+	struct circ_hamil hm_x = clone_hamil(&hm_master);
+	struct circ_muldet md_x = clone_muldet(&md_master);
+	TEST_EQ(qdrift_init(&x, &dt_x, hm_x, STPREP_MULTIDET, &md_x, NULL),
+		0);
+	qdrift_free(&x);
+
+	const struct qdrift_data dt = {
+		.samples = 4,
+		.depth = 8,
+		.step_size = 0.1,
+		.seed = 0,
+	};
+
+	struct qdrift a, b;
+	struct circ_hamil hm_a = clone_hamil(&hm_master);
+	struct circ_muldet md_a = clone_muldet(&md_master);
+	TEST_EQ(qdrift_init(&a, &dt, hm_a, STPREP_MULTIDET, &md_a, NULL),
+		0);
+	TEST_EQ(a.dt.seed, (uint64_t)0);
+	struct circ_hamil hm_b = clone_hamil(&hm_master);
+	struct circ_muldet md_b = clone_muldet(&md_master);
+	TEST_EQ(qdrift_init(&b, &dt, hm_b, STPREP_MULTIDET, &md_b, NULL),
+		0);
+
+	TEST_EQ(qdrift_simul(&a), 0);
+	TEST_EQ(qdrift_simul(&b), 0);
+
+	for (size_t i = 0; i < a.ct.vals.len; i++) {
+		const _Complex double za = a.ct.vals.z[i];
+		const _Complex double zb = b.ct.vals.z[i];
+		TEST_ASSERT(isfinite(creal(za)) && isfinite(cimag(za)),
+			"sample %zu not finite: (%g+%gi)",
+			i, creal(za), cimag(za));
+		TEST_ASSERT(za == zb,
+			"sample %zu diverges: a=(%g+%gi) b=(%g+%gi)",
+			i, creal(za), cimag(za), creal(zb), cimag(zb));
+	}
+
+	qdrift_free(&a);
+	qdrift_free(&b);
+
+	circ_hamil_free(&hm_master);
+	circ_muldet_free(&md_master);
+}
+
 static void t_single_term_eq_trott(void)
 {
 	/* Single-term Hamiltonian H = +1 * P.  qdrift always
@@ -223,6 +306,8 @@ int main(void)
 	xoshiro256ss_init(&RNG, RNG_SEED);
 
 	t_seed_reproducible();
+	t_xoshiro_seed_zero();
+	t_seed_zero();
 	t_single_term_eq_trott();
 
 	world_free();

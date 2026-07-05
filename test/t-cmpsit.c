@@ -3,11 +3,13 @@
  * (partially-randomised) 2nd-order Trotter
  * (circ/cmpsit.c).
  *
- * Single scenario today: seed reproducibility.  Two
- * cmpsit_simul runs with identical cmpsit_data.seed must
- * produce bit-identical per-sample overlaps.  Pins the
- * RNG seed contract -- the same seed must drive the same
- * sample sequence across all `samples` draws.
+ * Scenarios: seed reproducibility (two cmpsit_simul runs
+ * with identical cmpsit_data.seed must produce
+ * bit-identical per-sample overlaps -- the same seed must
+ * drive the same sample sequence across all `samples`
+ * draws) and the seed-0 contract (0 is a legal value used
+ * verbatim, not poisoned by an earlier explicit-seed
+ * instance).
  *
  * Mean-convergence checks against a trotter / trott2
  * reference are the natural next step once a clean
@@ -148,12 +150,79 @@ static void t_seed_reproducible(void)
 }
 
 
+static void t_seed_zero(void)
+{
+	struct circ_hamil hm_master = build_hamil(NUM_TERMS);
+	struct circ_muldet md_master = build_muldet(NUM_DETS);
+
+	/* Poison attempt: an earlier instance with an explicit
+	 * seed must not leak into a later seed-0 init. */
+	const struct cmpsit_data dt_x = {
+		.samples = 1,
+		.steps = 1,
+		.length = 2,
+		.depth = 4,
+		.angle_det = 0.1,
+		.angle_rand = 0.1,
+		.seed = UINT64_C(0x18f4d20c7ab9635e),
+	};
+	struct cmpsit x;
+	struct circ_hamil hm_x = clone_hamil(&hm_master);
+	struct circ_muldet md_x = clone_muldet(&md_master);
+	TEST_EQ(cmpsit_init(&x, &dt_x, hm_x, STPREP_MULTIDET, &md_x, NULL),
+		0);
+	cmpsit_free(&x);
+
+	const struct cmpsit_data dt = {
+		.samples = 3,
+		.steps = 2,
+		.length = 2,
+		.depth = 4,
+		.angle_det = 0.1,
+		.angle_rand = 0.1,
+		.seed = 0,
+	};
+
+	struct cmpsit a, b;
+	struct circ_hamil hm_a = clone_hamil(&hm_master);
+	struct circ_muldet md_a = clone_muldet(&md_master);
+	TEST_EQ(cmpsit_init(&a, &dt, hm_a, STPREP_MULTIDET, &md_a, NULL),
+		0);
+	TEST_EQ(a.dt.seed, (uint64_t)0);
+	struct circ_hamil hm_b = clone_hamil(&hm_master);
+	struct circ_muldet md_b = clone_muldet(&md_master);
+	TEST_EQ(cmpsit_init(&b, &dt, hm_b, STPREP_MULTIDET, &md_b, NULL),
+		0);
+
+	TEST_EQ(cmpsit_simul(&a), 0);
+	TEST_EQ(cmpsit_simul(&b), 0);
+
+	for (size_t i = 0; i < a.ct.vals.len; i++) {
+		const _Complex double za = a.ct.vals.z[i];
+		const _Complex double zb = b.ct.vals.z[i];
+		TEST_ASSERT(isfinite(creal(za)) && isfinite(cimag(za)),
+			"sample %zu not finite: (%g+%gi)",
+			i, creal(za), cimag(za));
+		TEST_ASSERT(za == zb,
+			"sample %zu diverges: a=(%g+%gi) b=(%g+%gi)",
+			i, creal(za), cimag(za), creal(zb), cimag(zb));
+	}
+
+	cmpsit_free(&a);
+	cmpsit_free(&b);
+
+	circ_hamil_free(&hm_master);
+	circ_muldet_free(&md_master);
+}
+
+
 int main(void)
 {
 	world_init(nullptr, nullptr, WD_SEED);
 	xoshiro256ss_init(&RNG, RNG_SEED);
 
 	t_seed_reproducible();
+	t_seed_zero();
 
 	world_free();
 	return 0;
