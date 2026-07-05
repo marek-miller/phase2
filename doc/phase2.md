@@ -1981,7 +1981,7 @@ One JSON object per line in
 | Field         | Type    | Example                  |
 |---------------|---------|--------------------------|
 | `timestamp`   | string  | `"2026-05-16T13:42:30Z"` |
-| `hostname`    | string  | `"kumath"`               |
+| `hostname`    | string  | `"buildhost"`            |
 | `commit`      | string  | `"031cf25"`              |
 | `compiler`    | string  | `"13.3.0"`               |
 | `backend`     | string  | `"qreg"` / `"cuda"`      |

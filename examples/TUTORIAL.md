@@ -12,7 +12,7 @@ From the repository root:
 
 ```sh
 make                            # build/ph2run/ph2run
-python3 -m venv ~/.venv && . ~/.venv/bin/activate
+python3 -m venv .venv && . .venv/bin/activate
 pip install -e ".[examples]"    # h5py, numpy, scipy
 ```
 
