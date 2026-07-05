@@ -25,6 +25,11 @@ struct xoshiro256ss {
 	uint64_t s[4];
 };
 
+/*
+ * Any 64-bit seed is valid, including 0: the state is expanded
+ * from the seed via a splitmix64 chain (never seeded raw), so
+ * the all-zero fixed point is unreachable.
+ */
 void xoshiro256ss_init(struct xoshiro256ss *rng, uint64_t seed);
 
 uint64_t xoshiro256ss_next(struct xoshiro256ss *rng);

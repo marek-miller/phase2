@@ -26,8 +26,6 @@
 
 #include "internal.h"
 
-static uint64_t SEED = UINT64_C(0xafb424901446f21f);
-
 #ifndef FRAC_PI_2
 #define FRAC_PI_2 1.57079632679489661923132169163975144
 #endif
@@ -127,10 +125,6 @@ int cmpsit_init(struct cmpsit *cp, const struct cmpsit_data *dt,
 	if (ranct_init(&cp->ranct, &cp->ct.hm, dt) < 0)
 		goto err_ranct_init;
 
-	if (cp->dt.seed != 0)
-		SEED = cp->dt.seed;
-	else
-		cp->dt.seed = SEED;
 	xoshiro256ss_init(&cp->rng, cp->dt.seed);
 
 	return 0;

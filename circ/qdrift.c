@@ -26,8 +26,6 @@
 
 #include "internal.h"
 
-static uint64_t SEED = UINT64_C(0xeccd9dcc749fcdca);
-
 static int ranct_init(struct qdrift_ranct *rct, const uint32_t qb,
 	const size_t depth, const size_t cdf_len)
 {
@@ -68,10 +66,6 @@ int qdrift_init(struct qdrift *qd, const struct qdrift_data *dt,
 		goto err_rct_init;
 	ranct_calc_cdf(&qd->ranct, qd->ct.hm.terms);
 
-	if (qd->dt.seed != 0)
-		SEED = qd->dt.seed;
-	else
-		qd->dt.seed = SEED;
 	xoshiro256ss_init(&qd->rng, qd->dt.seed);
 
 	return 0;

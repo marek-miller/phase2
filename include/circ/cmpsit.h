@@ -22,8 +22,9 @@
  * sample at omega = 0.5, then a reverse half-sweep of an
  * independent sample — yielding the symmetric S_2 integrator.
  *
- * Output is the per-sample overlap series.  `seed` must be
- * non-zero.
+ * Output is the per-sample overlap series.  The PRNG is
+ * seeded from `seed` verbatim, identically on every rank;
+ * any value is valid, including 0.
  */
 
 struct cmpsit_data {
@@ -33,7 +34,7 @@ struct cmpsit_data {
 	size_t depth;		/* randomised term count per step */
 	double angle_det;	/* deterministic step size */
 	double angle_rand;	/* randomised step size */
-	uint64_t seed;		/* PRNG seed; must be non-zero */
+	uint64_t seed;		/* PRNG seed; used verbatim */
 };
 
 /* Working state for one sampled composite circuit. */
