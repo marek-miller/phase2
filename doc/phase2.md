@@ -51,9 +51,11 @@ channel methods on classically tractable system sizes.
 
 ### 2.1 Dependencies (CPU build)
 
+The C sources are ISO C23: GCC 14 or later is required
+(`make CC=gcc-14` if the system default is older).
 Required packages on Ubuntu/Debian:
 
-    sudo apt install gcc make libopenmpi-dev       \
+    sudo apt install gcc-14 make libopenmpi-dev    \
                      libhdf5-dev
 
 ### 2.2 Build and test
@@ -468,7 +470,7 @@ using `cuCmul`, `cuCadd`, `cuCsub` for complex arithmetic.
 
 **`paulisEffect` (__device__)**: Device-side implementation
 of `paulis_effect`, using `__popcll` (CUDA 64-bit
-popcount intrinsic) instead of `stdc_count_ones_ul`.
+popcount intrinsic) instead of `__builtin_popcountll`.
 
 **`kernelPauliRot`**: One thread per amplitude.  The j < i
 guard prevents double-application.  Uses `cuCmul`,
@@ -1691,6 +1693,11 @@ happens during data loading in `circ_hamil_load`.
 ---
 
 ## 10. Building and Testing
+
+The C sources are ISO C23 (`-std=c23`, GCC >= 14) and use
+the C23 idiom natively: `nullptr`, the `bool`/`true`/`false`
+keywords, `[[...]]` attributes, and `unreachable()` from
+`<stddef.h>`.  New code follows suit.
 
 ### 10.1 Make Targets
 
