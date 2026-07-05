@@ -204,7 +204,8 @@ ph2run: phase2 circ lib
 bench-build: phase2 circ lib ph2run-data
 	+@$(MAKE) -C $(BENCHDIR)
 
-test-build: phase2 circ lib ph2run-data
+# t-ph2run execs the ph2run binary, hence the extra dep.
+test-build: phase2 circ lib ph2run ph2run-data
 	+@$(MAKE) -C $(TESTDIR) build
 
 # Internal: build ph2run/data.o (used by tests and benches) without

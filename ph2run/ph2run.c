@@ -833,6 +833,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "ph2run: world_init failed\n");
 		exit(-1);
 	}
+	world_info(&wd);
 
 	if (!sc) {
 		log_error("unrecognised subcommand: %s",
